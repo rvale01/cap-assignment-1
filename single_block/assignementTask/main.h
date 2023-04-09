@@ -76,11 +76,6 @@ void print_transaction(const chain_block_transaction_t *transaction){
     printf("--------- TRANSACTION COMPLETED ------------\n\n\n\n\n");
 }
 
-void exampleFunction(RSA *wallet_key) {
-    // Your implementation here
-    printf("ok");
-}
-
 // function used to verify the transaction
 int verify_transaction_hash(const chain_block_transaction_t *transaction, RSA *wallet_key) {
     if (wallet_key == NULL) {
@@ -128,20 +123,16 @@ RSA * read_public_key(){
     return wallet_key;
 }
 
-double calculate_wallet_balance(RSA *wallet_key, chain_block_transaction_t transaction ) {
-    double balance = 0.0;
+calculate_wallet_balance(RSA *wallet_key, chain_block_transaction_t transaction, double *wallet_balance ) {
 
     // Check if the wallet is the sender or recipient in the transaction
     // If the wallet is the sender, subtract the transaction amount from the balance
-    // If the wallet is the recipient, add the transaction amount to the balance
+    // If the wallet is the recipient, it adds the transaction amount to the balance
     if (memcmp(&transaction.wallet_sender_key, wallet_key, 1024) == 0) {
-        balance -= transaction.amount;
+       *wallet_balance -= transaction.amount;
     } else if (memcmp(&transaction.wallet_recipient_key, wallet_key, 1024) == 0) {
-        balance += transaction.amount;
+        *wallet_balance += transaction.amount;
     }
-
-    // Return the balance
-    return balance;
 }
 
 int wallet_print_choice()

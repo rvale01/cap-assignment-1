@@ -33,7 +33,7 @@ int main(){
         chain_details chain;
 
         // the balance which will be updated after
-        double wallet_balance = 0;
+        double wallet_balance = 0.0;
 
         // read the public key from the dile
         FILE *wallet_key_file;
@@ -60,7 +60,7 @@ int main(){
                     // Check if the transaction has not been compromised and it's valid
                     int is_correct = verify_transaction_hash(&(chain.transaction[x]), wallet_key);
                     if(is_correct == 1){
-                        wallet_balance = calculate_wallet_balance(wallet_key, chain.transaction[x]);
+                        calculate_wallet_balance(wallet_key, chain.transaction[x], &wallet_balance);
                         printf("The transaction is valid!");
                     }else{
                         printf("The transaction is not valid!");
